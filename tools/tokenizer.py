@@ -17,8 +17,8 @@ class BITokenizer(object):
     def __init__(self):
         pass
 
-    @staticmethod
-    def tokenize(text):
+    @classmethod
+    def tokenize(self, text):
         tu8 = to_unicode(text)
         rarray = []
         for idx, sy in enumerate(tu8):
@@ -30,8 +30,8 @@ class BITokenizer(object):
             rarray.append("%s/%s" % (tag, sy))
         return to_utf8(" ".join(rarray))
 
-    @staticmethod
-    def detokenize(text):
+    @classmethod
+    def detokenize(self, text):
         array = text.split(" ")
         rarray = []
         for idx, sy in enumerate(array):
@@ -44,9 +44,9 @@ class BITokenizer(object):
 
 if __name__ == "__main__":
     text = "오늘 날씨가 정말 좋네요"
-
-    tokens = BITokenizer.tokenize(text)
-    detokens = BITokenizer.detokenize(tokens)
+    tokenizer = BITokenizer()
+    tokens = tokenizer.tokenize(text)
+    detokens = tokenizer.detokenize(tokens)
 
     print text
     print tokens

@@ -5,8 +5,9 @@ import onmt.Markdown
 import torch
 import argparse
 import math
+import sys
 
-import tokenizer
+from tokenizer import BITokenizer
 
 class Option(object):
     def __init__(self):
@@ -32,11 +33,11 @@ def online_trans_init(opt):
     translator = onmt.Translator(opt)
     return translator
 
-def online_translate(translator, tokenzier, input):
+def online_translate(translator, tokenizer, input):
     srcBatch, tgtBatch = [], []
     src = input
-    if tokenzier != None:
-        src = tokenizer.tokenizer(src)
+    if tokenizer != None:
+        src = tokenizer.tokenize(src)
     srcTokens = input.split()
     srcBatch += [srcTokens]
     predBatch, predScore, goldScore = translator.translate(srcBatch, tgtBatch)
@@ -55,12 +56,12 @@ def main(options):
     opt.src = options.src
 
     trans = online_trans_init(opt)
-    tokenizer = tokenizer.BITokenizer()
+    tokenizer = BITokenizer()
 
-    with open(opt.src, 'rt') as fh:
-        for text in fh:
-            text = text.rstrip()
-            online_translate(trans, tokenizer, text)
+    #with open(opt.src, 'rt') as fh:
+    for text in sys.stdin:
+        text = text.rstrip()
+        online_translate(trans, tokenizer, text)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='translate.py')
@@ -68,7 +69,7 @@ if __name__ == "__main__":
 
     parser.add_argument('-model', required=True,
                         help='Path to model .pt file')
-    parser.add_argument('-src',   required=True,
+    parser.add_argument('-src',   required=False,
                         help='Source sequence to decode (one line per sequence)')
     parser.add_argument('-src_img_dir',   default="",
                         help='Source image directory')
