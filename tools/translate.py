@@ -7,7 +7,7 @@ import argparse
 import math
 
 class Option(object):
-    def __init(self):
+    def __init__(self):
         self.model = ""
         self.src = ""
         self.src_img_dir = ""
@@ -35,7 +35,11 @@ def online_translate(translator, tokenzier, input):
     srcTokens = input.split()
     srcBatch += [srcTokens]
     predBatch, predScore, goldScore = translator.translate(srcBatch, tgtBatch)
+    predToken = predBatch[0][0]
+
     print predBatch
+    print predToken
+    print " ".join(predToken)
 
 def main(options):
     opt = Option()
