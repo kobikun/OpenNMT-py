@@ -7,7 +7,7 @@ import argparse
 import math
 import sys
 
-from tokenizer import BITokenizer
+from tokenizer import BITokenizer, to_unicode, to_utf8
 
 class Option(object):
     def __init__(self):
@@ -43,10 +43,9 @@ def online_translate(translator, tokenizer, input):
     predBatch, predScore, goldScore = translator.translate(srcBatch, tgtBatch)
     predToken = predBatch[0][0]
 
-    print predBatch
     print predToken
     print " ".join(predToken)
-    print tokenizer.detokenize(" ".join(predToken))
+    return tokenizer.detokenize(" ".join(predToken))
 
     
 def main(options):
