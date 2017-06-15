@@ -6,6 +6,8 @@ import torch
 import argparse
 import math
 
+import tokenizer
+
 class Option(object):
     def __init__(self):
         self.model = ""
@@ -32,6 +34,9 @@ def online_trans_init(opt):
 
 def online_translate(translator, tokenzier, input):
     srcBatch, tgtBatch = [], []
+    src = input
+    if tokenzier != None:
+        src = tokenizer.tokenizer(src)
     srcTokens = input.split()
     srcBatch += [srcTokens]
     predBatch, predScore, goldScore = translator.translate(srcBatch, tgtBatch)
@@ -40,7 +45,9 @@ def online_translate(translator, tokenzier, input):
     print predBatch
     print predToken
     print " ".join(predToken)
+    print tokenizer.detokenize(" ".join(predToken))
 
+    
 def main(options):
     opt = Option()
     opt.model = options.model
@@ -48,11 +55,12 @@ def main(options):
     opt.src = options.src
 
     trans = online_trans_init(opt)
+    tokenizer = tokenizer.BITokenizer()
 
     with open(opt.src, 'rt') as fh:
         for text in fh:
             text = text.rstrip()
-            online_translate(trans, None, text)
+            online_translate(trans, tokenizer, text)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='translate.py')
