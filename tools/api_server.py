@@ -5,7 +5,7 @@ from translate import Option, online_trans_init, online_translate
 from tokenizer import BITokenizer
 
 opt = Option()
-opt.model = "/data1/users/kobi/dev/OpenNMT-py-kobi/data-nmt-bi.reply_2m-model/chat_model.pt"
+opt.model = ""
 
 tokenizer = BITokenizer()
 translator = online_trans_init(opt)
