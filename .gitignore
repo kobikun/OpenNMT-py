@@ -3,3 +3,8 @@ multi-bleu.perl
 *.pt
 *.pyc
 #.*
+.idea
+*.sublime-*
+.DS_Store
+data/
+build/
